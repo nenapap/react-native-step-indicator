@@ -233,8 +233,8 @@ export default class StepIndicator extends PureComponent {
         case STEP_STATUS.FINISHED:{
           stepStyle = {
             backgroundColor: this.state.customStyles.stepIndicatorFinishedColor,
-            borderWidth:this.state.customStyles.stepStrokeWidth,
-            borderColor:this.state.customStyles.stepStrokeFinishedColor,
+            borderWidth:this.state.customStyles.currentStepStrokeWidth,
+            borderColor:this.state.customStyles.stepStrokeCurrentColor,
             height:this.state.customStyles.stepIndicatorSize,
             width:this.state.customStyles.stepIndicatorSize,
             borderRadius:(this.state.customStyles.stepIndicatorSize) / 2
@@ -264,7 +264,7 @@ export default class StepIndicator extends PureComponent {
             renderStepIndicator ? renderStepIndicator({
           position,
           stepStatus: this.getStepStatus(position),
-        }) : <Text style={indicatorLabelStyle}>{ position + 1 }</Text>}
+        }) : <Text style={indicatorLabelStyle}></Text>}
         </Animated.View>
       );
     }
