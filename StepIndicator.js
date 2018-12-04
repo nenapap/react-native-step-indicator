@@ -15,8 +15,8 @@ export default class StepIndicator extends PureComponent {
     super(props);
 
     const defaultStyles = {
-      stepIndicatorSize: 30,
-      currentStepIndicatorSize: 40,
+      stepIndicatorSize: 20,
+      currentStepIndicatorSize: 20,
       separatorStrokeWidth: 3,
       currentStepStrokeWidth: 5,
       stepStrokeWidth: 0,
@@ -88,7 +88,7 @@ export default class StepIndicator extends PureComponent {
       progressBarBackgroundStyle = {
         backgroundColor:this.state.customStyles.separatorUnFinishedColor,
         position:'absolute',
-        left: (Dimensions.get('window').width/2 ) + this.state.customStyles.stepIndicatorSize/2 + this.state.customStyles.separatorStrokeWidth ,
+        left: (Dimensions.get('window').width/2 ) + this.state.customStyles.stepIndicatorSize/2 - this.state.customStyles.separatorStrokeWidth/2 ,
         top:this.state.height/(2*stepCount),
         bottom:this.state.height/(2*stepCount),
         width:this.state.customStyles.separatorStrokeWidth
@@ -125,7 +125,7 @@ export default class StepIndicator extends PureComponent {
        progressBarStyle = {
          backgroundColor:this.state.customStyles.separatorFinishedColor,
          position:'absolute',
-         left: (Dimensions.get('window').width/2 ) + this.state.customStyles.stepIndicatorSize/2 + this.state.customStyles.separatorStrokeWidth ,
+         left: (Dimensions.get('window').width/2 ) + this.state.customStyles.stepIndicatorSize/2 - this.state.customStyles.separatorStrokeWidth/2 ,
          top:this.state.height/(2*stepCount),
          bottom:this.state.height/(2*stepCount),
          width:this.state.customStyles.separatorStrokeWidth,
@@ -176,8 +176,13 @@ export default class StepIndicator extends PureComponent {
           <TouchableWithoutFeedback style={styles.stepLabelItem} key={index} onPress={() => this.stepPressed(index)}>
             <View style={styles.stepLabelItem}>
               <Text style={[styles.stepLabel,selectedStepLabelStyle , { fontSize: this.state.customStyles.labelSize }]}>
-                {label}
+                {label.endDate}
               </Text>
+              {label.endDate != 0 &&
+                  <Text style={[styles.stepLabel,selectedStepLabelStyle , {fontSize: 13 , color: '#888',fontWeight: null}]}>
+                     Χρόνος Παραμονής {"\n"} {label.countOfDays} {label.countOfDays == 1 ? 'ημέρα': 'ημέρες'}
+                  </Text>
+              }
             </View>
           </TouchableWithoutFeedback>
         )
@@ -198,7 +203,10 @@ export default class StepIndicator extends PureComponent {
               <TouchableWithoutFeedback style={styles.stepLabelItem} key={index} onPress={() => this.stepPressed(index)}>
                 <View style={styles.stepLabelItem}>
                   <Text style={[styles.stepLabel,selectedStepLabelStyle , { fontSize: this.state.customStyles.labelSize }]}>
-                    {label}
+                    {label.performer}
+                  </Text>
+              <Text style={[styles.stepLabel,selectedStepLabelStyle , {fontSize: 13 , color: '#888',fontWeight: null}]}>
+                    {label.status}
                   </Text>
                 </View>
               </TouchableWithoutFeedback>
@@ -293,16 +301,16 @@ export default class StepIndicator extends PureComponent {
       Animated.sequence([
         Animated.timing(
           this.progressAnim,
-          {toValue: animateToPosition,duration:200}
+          {toValue: animateToPosition,duration:800}
         ),
         Animated.parallel([
           Animated.timing(
             this.sizeAnim,
-            {toValue: this.state.customStyles.currentStepIndicatorSize, duration:100}
+            {toValue: this.state.customStyles.currentStepIndicatorSize, duration:400}
           ),
           Animated.timing(
             this.borderRadiusAnim,
-            {toValue: this.state.customStyles.currentStepIndicatorSize/2, duration:100}
+            {toValue: this.state.customStyles.currentStepIndicatorSize/2, duration:400}
           )
         ])
       ]).start();
@@ -345,7 +353,7 @@ export default class StepIndicator extends PureComponent {
       flex:1,
       alignItems:'center',
       justifyContent:'center',
-      width: '90%'
+      width: '87%'
     }
   });
 
