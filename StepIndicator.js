@@ -82,14 +82,17 @@ export default class StepIndicator extends PureComponent {
   }
 
   renderProgressBarBackground = () => {
+    const screenWidth = Dimensions.get("screen").width;
     const { stepCount, direction } = this.props;
     let progressBarBackgroundStyle;
     if(direction === 'vertical') {
       progressBarBackgroundStyle = {
         backgroundColor:this.state.customStyles.separatorUnFinishedColor,
         position:'absolute',
-        left: (Dimensions.get('window').width/2 ) + this.state.customStyles.stepIndicatorSize/2 - this.state.customStyles.separatorStrokeWidth/2 ,
-        top:this.state.height/(2*stepCount),
+        left: 
+        this.props.isTablet ? screenWidth * 0.25 + this.state.customStyles.stepIndicatorSize/2 - this.state.customStyles.separatorStrokeWidth/2 
+        : 
+        (Dimensions.get('window').width/2 ) + this.state.customStyles.stepIndicatorSize/2 - this.state.customStyles.separatorStrokeWidth/2 ,        top:this.state.height/(2*stepCount),
         bottom:this.state.height/(2*stepCount),
         width:this.state.customStyles.separatorStrokeWidth
       }
@@ -120,12 +123,17 @@ export default class StepIndicator extends PureComponent {
 
   renderProgressBar = () => {
     const { stepCount, direction } = this.props;
+    const screenWidth = Dimensions.get("screen").width;
     let progressBarStyle;
     if(direction === 'vertical') {
        progressBarStyle = {
          backgroundColor:this.state.customStyles.separatorFinishedColor,
          position:'absolute',
-         left: (Dimensions.get('window').width/2 ) + this.state.customStyles.stepIndicatorSize/2 - this.state.customStyles.separatorStrokeWidth/2 ,
+         left: 
+          this.props.isTablet ? screenWidth * 0.25 + this.state.customStyles.stepIndicatorSize/2 - this.state.customStyles.separatorStrokeWidth/2 
+          : 
+          (Dimensions.get('window').width/2 ) + this.state.customStyles.stepIndicatorSize/2 - this.state.customStyles.separatorStrokeWidth/2 ,
+
          top:this.state.height/(2*stepCount),
          bottom:this.state.height/(2*stepCount),
          width:this.state.customStyles.separatorStrokeWidth,
@@ -366,11 +374,13 @@ export default class StepIndicator extends PureComponent {
     labelsRight: PropTypes.array,
     onPress: PropTypes.func,
     renderStepIndicator: PropTypes.func,
+    isTablet: PropTypes.bool
   };
 
   StepIndicator.defaultProps = {
     currentPosition: 0,
     stepCount: 5,
     customStyles: {},
-    direction: 'horizontal'
+    direction: 'horizontal',
+    isTablet: false
   };
